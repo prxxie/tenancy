@@ -1,0 +1,100 @@
+version: '3.7'
+
+networks:
+  backend:
+    external:
+      name: mainnet
+
+volumes:
+  mysqldata:
+    name: original-master-db
+
+services:
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: apps/api-gateway/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+    image: "ttmop/api-gateway:${BUILD_VERSION}"
+    restart: always
+    env_file: apps/api-gateway/.env
+    networks:
+      - backend
+    volumes:
+      - ".:/src"
+      - /src/node_modules
+    depends_on:
+      - mariadb
+      # - redis
+    environment:
+      - VIRTUAL_HOST=api.ttm-op.local
+      - VIRTUAL_PORT=3000
+
+  service-auth:
+    build:
+      context: .
+      dockerfile: apps/service-auth/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+    image: "ttmop/service-auth:${BUILD_VERSION}"
+    restart: always
+    env_file: apps/service-auth/.env
+    networks:
+      - backend
+    volumes:
+      - ".:/src"
+      - /src/node_modules
+    depends_on:
+      - mariadb
+      # - redis
+
+  service-customer:
+    build:
+      context: .
+      dockerfile: apps/service-customer/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+    image: "ttmop/service-customer:${BUILD_VERSION}"
+    restart: always
+    env_file: apps/service-customer/.env
+    networks:
+      - backend
+    volumes:
+      - ".:/src"
+      - /src/node_modules
+    depends_on:
+      - mariadb
+      # - redis
+
+  mariadb:
+    image: mariadb
+    restart: always
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - "mysqldata:/var/lib/mysql"
+    # ports:
+    #   - 3306:3306
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      VIRTUAL_HOST: "pma.ttm-op.local"
+    networks:
+      - backend
+    links:
+      - mariadb:mariadb

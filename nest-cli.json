@@ -1,0 +1,57 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/api-gateway/src",
+  "monorepo": true,
+  "root": "apps/api-gateway",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+  },
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "service-auth": {
+      "type": "application",
+      "root": "apps/service-auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/service-auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service-auth/tsconfig.app.json"
+      }
+    },
+    "service-customer": {
+      "type": "application",
+      "root": "apps/service-customer",
+      "entryFile": "main",
+      "sourceRoot": "apps/service-customer/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service-customer/tsconfig.app.json"
+      }
+    },
+    "service-discovery": {
+      "type": "library",
+      "root": "libs/service-discovery",
+      "entryFile": "index",
+      "sourceRoot": "libs/service-discovery/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/service-discovery/tsconfig.lib.json"
+      }
+    },
+    "config": {
+      "type": "library",
+      "root": "libs/config",
+      "entryFile": "index",
+      "sourceRoot": "libs/config/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/config/tsconfig.lib.json"
+      }
+    }
+  }
+}
