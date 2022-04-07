@@ -11,6 +11,28 @@ volumes:
 
 services:
 
+  api-system:
+    build:
+      context: .
+      dockerfile: apps/api-system/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+    image: "ttmop/api-system:${BUILD_VERSION}"
+    restart: always
+    env_file: apps/api-system/.env
+    networks:
+      - backend
+    volumes:
+      - ".:/src"
+      - /src/node_modules
+    depends_on:
+      - mariadb
+      # - redis
+    environment:
+      - VIRTUAL_HOST=api-system.ttm-op.local
+      - VIRTUAL_PORT=3000
+
   api-gateway:
     build:
       context: .
@@ -62,6 +84,25 @@ services:
     image: "ttmop/service-customer:${BUILD_VERSION}"
     restart: always
     env_file: apps/service-customer/.env
+    networks:
+      - backend
+    volumes:
+      - ".:/src"
+      - /src/node_modules
+    depends_on:
+      - mariadb
+      # - redis
+
+  service-users:
+    build:
+      context: .
+      dockerfile: apps/service-users/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+    image: "ttmop/service-users:${BUILD_VERSION}"
+    restart: always
+    env_file: apps/service-users/.env
     networks:
       - backend
     volumes:

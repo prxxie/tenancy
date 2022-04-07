@@ -1,11 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { map } from 'rxjs';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 @Injectable()
-export class ServiceCustomerService {
+export class CustomersService {
+  constructor(
+    @Inject('SERVICE_CUSTOMER')
+    private readonly clientServiceCustomer: ClientProxy,
+  ) {}
+
   create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+    return this.clientServiceCustomer
+      .send<string>('createCustomer', {})
+      .pipe(map((message: string) => ({ message, duration: Date.now() })));
   }
 
   findAll() {

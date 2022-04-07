@@ -1,9 +1,12 @@
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ServiceCustomerController } from './service-customer.controller';
 import { ServiceCustomerService } from './service-customer.service';
 
 @Module({
-  imports: [],
+  imports: [
+    MikroOrmModule.forRoot()
+  ],
   controllers: [ServiceCustomerController],
   providers: [ServiceCustomerService],
 })

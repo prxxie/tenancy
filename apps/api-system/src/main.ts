@@ -1,15 +1,18 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { ApiSystemModule } from './api-system.module';
 
 async function bootstrap() {
   const appOptions = { cors: true };
 
-  const app = await NestFactory.create(AppModule, appOptions);
+  const app = await NestFactory.create(ApiSystemModule, appOptions);
+
+  app.useGlobalPipes(new ValidationPipe());
 
   const options = new DocumentBuilder()
-    .setTitle('TTM ERP Api docs')
-    .setDescription('TTM ERP Api documents')
+    .setTitle('TTM ERP Sytem Apis')
+    .setDescription('TTM ERP Sytem Apis documents')
     .setVersion('1.0')
     // .addBearerAuth()
     .build();

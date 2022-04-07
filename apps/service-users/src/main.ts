@@ -1,13 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { ServiceCustomerModule } from './service-customer.module';
+import { ServiceUsersModule } from './service-users.module';
 
 const logger = new Logger();
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    ServiceCustomerModule,
+    ServiceUsersModule,
     {
       transport: Transport.TCP,
       options: {
@@ -16,7 +16,8 @@ async function bootstrap() {
       },
     },
   );
+
   await app.listen();
-  logger.log('Microservice Customer is listening', 'BOOT');
+  logger.log('Microservice Users is listening', 'BOOT');
 }
 bootstrap();

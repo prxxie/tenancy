@@ -52,6 +52,42 @@
       "compilerOptions": {
         "tsConfigPath": "libs/config/tsconfig.lib.json"
       }
+    },
+    "service-users": {
+      "type": "application",
+      "root": "apps/service-users",
+      "entryFile": "main",
+      "sourceRoot": "apps/service-users/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/service-users/tsconfig.app.json"
+      }
+    },
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    },
+    "database": {
+      "type": "library",
+      "root": "libs/database",
+      "entryFile": "index",
+      "sourceRoot": "libs/database/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/database/tsconfig.lib.json"
+      }
+    },
+    "api-system": {
+      "type": "application",
+      "root": "apps/api-system",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-system/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-system/tsconfig.app.json"
+      }
     }
   }
 }
