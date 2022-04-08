@@ -1,6 +1,7 @@
-import { PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 
-export abstract class BaseEntity {
+@Entity({ abstract: true })
+export abstract class CustomBaseEntity {
   @PrimaryKey()
   id: number;
 
